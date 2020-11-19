@@ -13,7 +13,7 @@ const getPlayerChoice = function () {
   const selection = prompt(`${ROCK},${PAPER}, ${SCISSORS} ?`).toUpperCase();
   if (selection !== ROCK && selection !== PAPER && selection !== SCISSORS) {
     alert(`Invalid Choice!, we choose you as Defalult ${DEFAULT_USER_CHOICE}`);
-    return DEFAULT_USER_CHOICE;
+    return;
   }
 
   return selection;
@@ -30,29 +30,39 @@ const getComputerChoice = function () {
     return SCISSORS;
   }
 };
-const getWinner = function (cChoice, pChoice) {
-  if (cChoice === pChoice) {
-    return RESULT_DRAW;
-  } else if (
-    (cChoice === ROCK && pChoice === PAPER) ||
-    (cChoice === PAPER && pChoice === SCISSORS) ||
-    (cChoice === SCISSORS && pChoice === ROCK)
-  ) {
-    RESULT_PLAYER_WINS;
-  } else {
-    return RESULT_COMPUTER_WINS;
-  }
-};
+const getWinner = (cChoice, pChoice = DEFAULT_USER_CHOICE) =>
+  cChoice === pChoice
+    ? RESULT_DRAW
+    : (cChoice === ROCK && pChoice === PAPER) ||
+      (cChoice === PAPER && pChoice === SCISSORS) ||
+      (cChoice === SCISSORS && pChoice === ROCK)
+    ? RESULT_PLAYER_WINS
+    : RESULT_COMPUTER_WINS;
 
-startGameBtn.addEventListener('click', function () {
-  // let gameIsRunning = false;
+startGameBtn.addEventListener('click', () => {
   if (gameIsRunning) {
     return;
   }
   gameIsRunning = true;
   const playerSelection = getPlayerChoice();
-  const computerChoice = getComputerChoice();
+  const computerChoice  = getComputerChoice();
 
-  const  winners = getWinner(computerChoice,playerSelection);
-  console.log(winners);
+  let winners;
+  if (playerSelection) {
+    winners = getWinner(computerChoice, playerSelection);
+  } else {
+    winners = getWinner(computerChoice);
+  }
+
+  let message = `you picked ${playerSelection || DEFAULT_USER_CHOICE } , Computer picked ${computerChoice}  therefore you `;
+  if (winners === RESULT_DRAW) {
+    message = message + ` therefore you had a draw`;
+  } else if (winners === RESULT_PLAYER_WINS) {
+    message = message + ' Won!';
+  } else {
+    message = message + 'lost!';
+  }
+
+  alert(message);
+  gameIsRunning = false;
 });
