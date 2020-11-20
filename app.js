@@ -45,7 +45,7 @@ startGameBtn.addEventListener('click', () => {
   }
   gameIsRunning = true;
   const playerSelection = getPlayerChoice();
-  const computerChoice = getComputerChoice();
+  const computerChoice  = getComputerChoice();
 
   let winners;
   if (playerSelection) {
@@ -54,11 +54,9 @@ startGameBtn.addEventListener('click', () => {
     winners = getWinner(computerChoice);
   }
 
-  let message = `you picked ${
-    playerSelection || DEFAULT_USER_CHOICE
-  } , Computer picked ${computerChoice} therefore you `;
+  let message = `you picked ${playerSelection || DEFAULT_USER_CHOICE } , Computer picked ${computerChoice}  therefore you `;
   if (winners === RESULT_DRAW) {
-    message = message + `  had a draw`;
+    message = message + ` therefore you had a draw`;
   } else if (winners === RESULT_PLAYER_WINS) {
     message = message + ' Won!';
   } else {
@@ -68,53 +66,3 @@ startGameBtn.addEventListener('click', () => {
   alert(message);
   gameIsRunning = false;
 });
-
-// Not related to th game
-
-// const sumUp = (numbers) => {
-
-// Here is used Rest Operator ... , it more practical to reuse the function
-// Rest parameter must be the last formal parameter
-const combine = (resultHandler, operation, ...numbers) => {
-  const validateNumber = (number) => {
-    return isNaN(number) ? 0 : number;
-  };
-  let sum = 0;
-  for (const num of numbers) {
-
-
-    if (operation === 'ADD') {
-      sum += validateNumber(num);
-    }else if(operation === "Minus")
-    {
-
-
-         sum -= validateNumber(num);
-    }
-  }
-
-  resultHandler(sum, ' The result after adding all numbers is : ');
-};
-
-// const subtractUp = (resultHandler, ...numbers) => {
-//   const validateNumber = (number) => {
-//     return isNaN(number) ? 0 : number;
-//   };
-//   let sum = 0;
-//   for (const num of numbers) {
-//     sum -= validateNumber(num);
-//   }
-
-//   resultHandler(sum);
-// };
-
-const showResult = ( messageText, result) => {
-  alert(`${messageText}    ${result}`);
-};
-
-// console.log(sumUp([1, 55, 44, 75, 6, 2, 5, 4, 5, 5, 87, 5, 5555, 7, 5, 5]));
-combine(showResult.bind(this,'The result after add all numbers is '),"ADD", 1, 55, 44, 75, 6, 2, 5, 4, 5, 5, 87, 5, 5555, 7, 5);
-
-combine(showResult.bind(this,'The result after add all numbers is '), "ADD",1, 55, 44, 75, 6, 2, 5, 4, 5, 5, 4, 65, 85, 11);
-
-combine(showResult.bind(this,'The result after Subtract all numbers is '), "Minus",10, 12, 55);
